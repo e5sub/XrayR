@@ -1,19 +1,8 @@
 name: Publish Docker image
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - "**/*.go"
-      - "go.mod"
-      - "go.sum"
-      - ".github/workflows/*.yml"
-    tags:
-      - 'v*'
-  pull_request:
-    branches:
-      - 'master'
+  release:
+    types:
+      - published
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: xrayr-project/xrayr
@@ -75,7 +64,7 @@ jobs:
       - build
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: digests
           path: /tmp/digests
